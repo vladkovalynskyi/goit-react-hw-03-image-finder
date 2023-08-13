@@ -1,59 +1,38 @@
-import { createPortal } from 'react-dom';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import css from './Modal.module.css';
-
-const modalRoot = document.querySelector('#modal-root');
+import PropTypes from 'prop-types';
 
 export default class Modal extends Component {
-  state = {
-    pictureLink: null,
-    pictureAlt: '',
-  };
-
   componentDidMount() {
-    const { pictures, id } = this.props;
-    const foundPicture = pictures.find(picture => picture.id === id);
-    if (foundPicture) {
-      this.setState({ 
-        pictureLink: foundPicture.largeImageURL,
-        pictureAlt: foundPicture.tags,
-       });
-    }
-
-    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keydown', this.handleCloseModal);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleCloseModal);
   }
 
-  handleKeyDown = e => {
+  handleCloseModal = e => {
     if (e.code === 'Escape') {
       this.props.onClose();
     }
   };
 
-  handleModalClick = e => {
-    const backdrop = document.querySelector('#backdrop');
-    if (e.target === backdrop) {
+  handleOverlayClick = e => {
+    if (e.target === e.currentTarget) {
       this.props.onClose();
     }
   };
 
   render() {
-    return createPortal(
-      <div
-        id="backdrop"
-        className={css.overlay}
-        onClick={this.handleModalClick}
-      >
-        <div id="modal" className={css.modal}>
-          {this.state.pictureLink && (
-            <img src={this.state.pictureLink} alt={this.state.pictureAlt} />
-          )}
-        </div>
-      </div>,
-      modalRoot
+    return (
+      <div className={css.overlay} onClick={this.handleOverlayClick}>
+        <div className={css.modal}>{this.props.children}</div>
+      </div>
     );
   }
 }
+
+Modal.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

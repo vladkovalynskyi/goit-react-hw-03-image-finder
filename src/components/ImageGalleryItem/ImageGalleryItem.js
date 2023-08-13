@@ -1,10 +1,10 @@
 import React from 'react';
-import css from './ImageGalleryItem.module.css'
+import css from './ImageGalleryItem.module.css';
 
-export default function ImageGalleryItem ({ picture, toggleModal }) {
+export default function ImageGalleryItem({ picture, toggleModal }) {
   return (
-    <li 
-      className={css.ImageGalleryItem} 
+    <li
+      className={css.imageGalleryItem}
       onClick={() => toggleModal(picture.id)}
     >
       <img
@@ -15,5 +15,4 @@ export default function ImageGalleryItem ({ picture, toggleModal }) {
       />
     </li>
   );
-};
-
+}
