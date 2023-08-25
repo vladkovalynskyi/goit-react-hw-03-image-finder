@@ -1,19 +1,17 @@
 import React from 'react';
-import { Audio } from 'react-loader-spinner';
+import { ThreeDots } from 'react-loader-spinner';
 import css from './Loader.module.css';
+import PropTypes from 'prop-types';
 
-export default function Loader() {
+export default function Loader({ message }) {
   return (
-    <div className={css.spinner}>
-      <Audio
-        height="100"
-        width="100"
-        color="#3f51b5"
-        ariaLabel="audio-loading"
-        wrapperStyle={{}}
-        wrapperClass="wrapper-class"
-        visible={true}
-      />
+    <div className={css.loader}>
+      <p className={css.loaderMessage}>{message}</p>
+      <ThreeDots height={40} color="#3f51b5" />
     </div>
   );
 }
+
+Loader.propTypes = {
+  message: PropTypes.string.isRequired,
+};
